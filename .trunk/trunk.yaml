@@ -12,6 +12,11 @@ runtimes:
     - python@3.10.8
 lint:
   enabled:
+    - actionlint@1.6.25
+    - checkov@2.4.9
+    - isort@5.12.0
+    - osv-scanner@1.3.6
+    - yamllint@1.32.0
     - bandit@1.7.5
     - black@23.7.0
     - git-diff-check
@@ -20,4 +25,4 @@ lint:
     - ruff@0.0.286
     - taplo@0.8.1
     - trivy@0.44.1
-    - trufflehog@3.53.0
+    - trufflehog@3.54.0
