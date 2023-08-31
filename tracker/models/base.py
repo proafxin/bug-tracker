@@ -13,5 +13,8 @@ class Base(BaseModel):
         TIMESTAMP, server_default=func.now(), index=True
     )
     updated_at: Mapped[TIMESTAMP] = Column(
-        TIMESTAMP, server_default=func.now(), server_onupdate=func.current_timestamp()
+        TIMESTAMP,
+        server_default=func.now(),
+        server_onupdate=func.current_timestamp(),
+        index=True,
     )

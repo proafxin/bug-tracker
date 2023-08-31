@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tracker"
-version = "1.1.0"
+version = "1.2.2"
 description = ""
 authors = ["Masum Billal <proafxin@users.noreply.github.com>"]
 license = "LICENSE"
@@ -14,6 +14,7 @@ uvicorn = { extras = ["standard"], version = "^0.23.2" }
 sqlalchemy = "^2.0.20"
 mysqlclient = "^2.2.0"
 pymysql = "^1.1.0"
+alembic = "^1.11.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
