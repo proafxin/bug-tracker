@@ -17,7 +17,7 @@ def stories(db: Session, skip: int = 0, limit: int = 10) -> list[StoryOutput]:
     return db.query(Story).offset(offset=skip).limit(limit=limit).all()
 
 
-def story_by_id(db: Session, id: int) -> StoryOutput:
+def story_by_id(db: Session, id: int) -> StoryOutput | HTTPException:
     story = db.query(Story).filter(Story.id == id).first()
 
     if not story:
