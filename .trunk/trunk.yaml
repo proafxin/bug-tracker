@@ -32,3 +32,4 @@ lint:
       paths:
         # Ignore generated files
         - migrations/**
+        - Dockerfile
