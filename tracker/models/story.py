@@ -10,3 +10,6 @@ class Story(Base):
     bug = relationship("Bug", back_populates="story")
 
     __tablename__: str = "story"
+
+    class Config:
+        orm_mode = True

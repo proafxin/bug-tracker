@@ -1,22 +1,17 @@
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 
 from tracker.config.settings import DBHOST, DBNAME, DBPASSWORD, DBPORT, DBUSER
 
-url = f"mysql+pymysql://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
-engine = create_engine(url=url)
+url = f"mysql+aiomysql://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
+engine = create_async_engine(url=url)
 
-Session = sessionmaker(bind=engine, autoflush=False)
+Session = async_sessionmaker(bind=engine, expire_on_commit=False, class_=AsyncSession)
 
 
 BaseModel = declarative_base()
 
 
-def get_db():
-    db = Session()
-
-    try:
+async def get_db():
+    async with Session() as db:
         yield db
-    finally:
-        db.close()
