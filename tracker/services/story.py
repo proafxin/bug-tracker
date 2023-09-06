@@ -1,36 +1,36 @@
 from http import HTTPStatus
 
 from fastapi import HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
 from tracker.models.story import Story
 from tracker.serializers.story import StoryInput, StoryOutput
 
 
-def story_not_found(story_id: int) -> HTTPException:
-    return HTTPException(
-        status_code=HTTPStatus.NOT_FOUND, detail=f"Story {story_id} not found."
-    )
+async def stories(
+    db: AsyncSession, skip: int = 0, limit: int = 10
+) -> list[StoryOutput]:
+    query = await db.execute(select(Story).offset(skip).limit(limit=limit))
+
+    return query.scalars().all()
 
 
-def stories(db: Session, skip: int = 0, limit: int = 10) -> list[StoryOutput]:
-    return db.query(Story).offset(offset=skip).limit(limit=limit).all()
+async def story_by_id(db: AsyncSession, id: int) -> StoryOutput | HTTPException:
+    query = await db.execute(select(Story).where(Story.id == id))
+    story = query.scalars().first()
+
+    if isinstance(story, Story):
+        return story
+
+    return HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
-def story_by_id(db: Session, id: int) -> StoryOutput | HTTPException:
-    story = db.query(Story).filter(Story.id == id).first()
-
-    if not story:
-        return story_not_found(story_id=id)
-
-    return story
-
-
-def create(db: Session, story: StoryInput) -> StoryOutput:
+async def create(db: AsyncSession, story: StoryInput) -> StoryOutput:
     story_new = Story(name=story.name)
 
     db.add(story_new)
-    db.commit()
-    db.refresh(story_new)
+    await db.commit()
+    await db.refresh(story_new)
 
     return story_new
