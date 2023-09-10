@@ -1,10 +1,10 @@
 version: 0.1
 cli:
-  version: 1.14.2
+  version: 1.15.0
 plugins:
   sources:
     - id: trunk
-      ref: v1.2.2
+      ref: v1.2.3
       uri: https://github.com/trunk-io/plugins
 runtimes:
   enabled:
@@ -20,12 +20,12 @@ lint:
     - bandit@1.7.5
     - black@23.7.0
     - git-diff-check
-    - markdownlint@0.35.0
+    - markdownlint@0.36.0
     - prettier@3.0.3
-    - ruff@0.0.286
+    - ruff@0.0.287
     - taplo@0.8.1
-    - trivy@0.44.1
-    - trufflehog@3.54.0
+    - trivy@0.45.0
+    - trufflehog@3.54.3
 
   ignore:
     - linters: [ALL]
@@ -33,3 +33,10 @@ lint:
         # Ignore generated files
         - migrations/**
         - Dockerfile
+actions:
+  disabled:
+    - trunk-announce
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+  enabled:
+    - trunk-upgrade-available
