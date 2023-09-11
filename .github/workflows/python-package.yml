@@ -12,6 +12,7 @@ env:
   MYSQL_PASSWORD: ${{ vars.MYSQL_PASSWORD }}
   MYSQL_PORT: ${{ vars.MYSQL_PORT }}
   MYSQL_DBNAME: ${{ vars.MYSQL_DBNAME }}
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
   build:
@@ -37,5 +38,12 @@ jobs:
       
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          name: codecov-bug-tracker
+          verbose: true

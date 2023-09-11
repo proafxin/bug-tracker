@@ -18,12 +18,12 @@ async def stories(
 
 async def story_by_id(db: AsyncSession, id: int) -> StoryOutput | HTTPException:
     query = await db.execute(select(Story).where(Story.id == id))
-    story = query.scalars().first()
+    stories = query.scalars().all()
 
-    if isinstance(story, Story):
-        return story
+    if len(stories) > 0:
+        return stories[0]
 
-    return HTTPException(status_code=HTTPStatus.NOT_FOUND)
+    raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
 async def create(db: AsyncSession, story: StoryInput) -> StoryOutput:
