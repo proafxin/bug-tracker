@@ -10,6 +10,10 @@ from tracker.serializers.bug import BugInput, BugOutput
 from tracker.services.story import story_by_id
 
 
+async def bug_not_created() -> HTTPException:
+    return HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Bug not created.")
+
+
 async def bug_by_id(db: AsyncSession, id: int) -> BugOutput | HTTPException:
     query = await db.execute(select(Bug).filter(Bug.id == id))
     res = query.scalars().all()
@@ -54,4 +58,7 @@ async def create(db: AsyncSession, bug: BugInput) -> BugOutput:
     await db.commit()
     await db.refresh(obj)
 
-    return bug_output(bug=obj)
+    if isinstance(obj, Bug):
+        return bug_output(bug=obj)
+
+    return bug_not_created()
