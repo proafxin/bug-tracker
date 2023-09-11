@@ -9,6 +9,13 @@ on:
   pull_request:
     branches: [ "develop" ]
 
+env:
+  MYSQL_HOST: ${{ vars.MYSQL_HOST }}
+  MYSQL_USER: ${{ vars.MYSQL_USER }}
+  MYSQL_PASSWORD: ${{ vars.MYSQL_PASSWORD }}
+  MYSQL_PORT: ${{ vars.MYSQL_PORT }}
+  MYSQL_DBNAME: ${{ vars.MYSQL_DBNAME }}
+
 jobs:
   build:
 
