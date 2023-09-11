@@ -59,6 +59,6 @@ async def create(db: AsyncSession, bug: BugInput) -> BugOutput:
     await db.refresh(obj)
 
     if isinstance(obj, Bug):
-        return await bug_output(bug=obj)
+        return bug_output(bug=obj)
 
     return bug_not_created()
