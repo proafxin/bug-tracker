@@ -14,6 +14,3 @@ class Bug(Base):
 
     class Config:
         orm_mode = True
-
-    def __repr__(self) -> str:
-        return f"{self.title}, {self.story_id}"

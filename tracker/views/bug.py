@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from tracker.db.session import get_db
@@ -14,9 +14,6 @@ router = APIRouter()
 async def create(bug: BugInput, db: Session = Depends(get_db)):
     obj = await create_bug(db=db, bug=bug)
 
-    if isinstance(obj, HTTPException):
-        raise obj
-
     return obj
 
 
@@ -30,8 +27,5 @@ async def get(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 # trunk-ignore(ruff/B008)
 async def get_bug(id: int, db: Session = Depends(get_db)):
     obj = await bug_by_id(db=db, id=id)
-
-    if isinstance(obj, HTTPException):
-        raise obj
 
     return obj

@@ -23,7 +23,7 @@ async def story_by_id(db: AsyncSession, id: int) -> StoryOutput | HTTPException:
     if isinstance(story, Story):
         return story
 
-    return HTTPException(status_code=HTTPStatus.NOT_FOUND)
+    raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
 async def create(db: AsyncSession, story: StoryInput) -> StoryOutput:
