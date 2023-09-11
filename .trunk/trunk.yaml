@@ -33,6 +33,7 @@ lint:
         # Ignore generated files
         - migrations/**
         - Dockerfile
+        - .github/workflows/*.yml
 actions:
   disabled:
     - trunk-announce
